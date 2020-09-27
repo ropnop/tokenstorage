@@ -1,0 +1,69 @@
+<html>
+<head>
+    <script src="helperFunctions.js"></script>
+</head>
+<div>
+    <button id="login" onclick=login()>Login and get new token</button>
+    <br />
+    <code id="loginResponse"></code>
+</div>
+<hr />
+<div>
+    <button id="makeRequest" onclick=makeRequest()>Make an "authenticated" request</button>
+    <br />
+    <code id="requestResponse"></code>
+</div>
+<hr />
+<div>
+    <textarea rows=3 cols=100
+        placeholder="Enter JS to execute on this page (simulate XSS). Can you retrieve the auth token?"
+        id="payload"></textarea>
+    <br />
+    <button id="execute" onclick=execute()>Execute</button>
+</div>
+<hr />
+<div>
+    <button onclick=clearCookies()>Clear Cookies</button>
+    <button onclick=clearGlobalVar()>Clear global variable</button>
+    <button onclick=clearLocalStorage()>Clear localStorage</button>
+    <button onclick=clearSessionStorage()>Clear sessionStorage</button>
+    <br />
+    <code id="clearResponse"></code>
+</div>
+<script>
+    
+
+    function login() {
+        fetch("/api/login?method=cookie")
+            .then((res) => {
+                if (res.status == 200) {
+                    return res.json()
+                } else {
+                    throw Error(res.statusText)
+                }
+            })
+            .then((data) => {
+                logResponse("loginResponse", `Cookie set with token value: ${data.token}`)
+            })
+            .catch(console.error)
+    }
+
+    function makeRequest() {
+        fetch("/api/echo")
+            .then((res) => {
+                if (res.status == 200) {
+                    return res.text()
+                } else {
+                    throw Error(res.statusText)
+                }
+            }).then(responseText => logResponse("requestResponse", responseText))
+            .catch(console.error)
+    }
+
+    function execute() {
+        content = document.getElementById("payload").value;
+        eval(content);
+    }
+</script>
+
+</html>
