@@ -45,13 +45,12 @@
             token = value
         }
 
-        this.makeRequest = (req) => {
-            authReq = new Request(req, {
-                headers: {
-                    ...req.headers,
-                    'Authorization': token
-                }
-            })
+        this.fetch = (req) => {
+            modifiedHeaders = new Headers(req.headers);
+            if (token) {
+                modifiedHeaders.append('Authorization', token);
+            }
+            authReq = new Request(req, {headers: modifiedHeaders})
             return fetch(authReq)
         }
     }
@@ -75,9 +74,9 @@
     }
 
     function makeRequest() {
-        req = new Request("/api/echo");
+        req = new Request("/api/echo", {headers: {"foo": "bar"}});
 
-        auth.makeRequest(req)
+        auth.fetch(req)
             .then((res) => {
                 if (res.status == 200) {
                     return res.text()
