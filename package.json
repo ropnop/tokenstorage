@@ -1,0 +1,20 @@
+{
+  "name": "tokenstorage",
+  "version": "1.0.0",
+  "description": "View this blog post: TODO",
+  "dependencies": {
+    "cookie": "^0.4.1",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ropnop/tokenstorage.git"
+  },
+  "author": "ropnop",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ropnop/tokenstorage/issues"
+  },
+  "homepage": "https://github.com/ropnop/tokenstorage#readme"
+}
