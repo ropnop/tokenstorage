@@ -8,6 +8,16 @@ const whitelistedPathRegex = /\/api\/[^.]*$/ // anything under /api
 
 let token = '';
 
+self.addEventListener('install', event => {
+    event.waitUntil(self.skipWaiting());
+    console.log('[SW] serviceworker installed!');
+});
+
+self.addEventListener('activate', (event) => {
+    event.waitUntil(self.clients.claim());
+    console.log('[SW] serviceworker ready!');
+});
+
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'SET_TOKEN') {
         token = event.data.token;
