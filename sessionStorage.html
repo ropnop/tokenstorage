@@ -56,7 +56,7 @@
     function makeRequest() {
         let headers = {}
         if (sessionStorage.token) {
-            headers = { 'Authorization': localStorage.token }
+            headers = { 'Authorization': sessionStorage.token }
         }
         fetch("/api/echo", { headers: headers })
             .then((res) => {
