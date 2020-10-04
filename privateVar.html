@@ -39,19 +39,21 @@
 <script>
 
     function authModule() {
+        const authOrigins = ["https://tokenstorage.ropnop.dev", "http://localhost:3000"];
         let token = '';
         
         this.setToken = (value) => {
             token = value
         }
 
-        this.fetch = (req) => {
-            modifiedHeaders = new Headers(req.headers);
-            if (token) {
-                modifiedHeaders.append('Authorization', token);
+        this.fetch = (resource, options) => {
+            let req = new Request(resource, options);
+            destOrigin = new URL(req.url).origin;
+            console.log(destOrigin);
+            if (token && authOrigins.includes(destOrigin)) {
+                req.headers.set('Authorization', token);
             }
-            authReq = new Request(req, {headers: modifiedHeaders})
-            return fetch(authReq)
+            return fetch(req)
         }
     }
 
@@ -74,9 +76,7 @@
     }
 
     function makeRequest() {
-        req = new Request("/api/echo", {headers: {"foo": "bar"}});
-
-        auth.fetch(req)
+        auth.fetch("/api/echo", {headers: {"CustomHeader1": "foobar"}})
             .then((res) => {
                 if (res.status == 200) {
                     return res.text()
