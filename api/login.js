@@ -8,6 +8,8 @@ module.exports = async (req, res) => {
             path: "/",
             sameSite: true,
             httpOnly: true,
+            secure: true,
+            maxAge: 60*60*24 //24 hours
         }))
     }
     res.json({
