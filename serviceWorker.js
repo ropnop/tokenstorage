@@ -28,6 +28,10 @@ self.addEventListener('message', function(event) {
         token = event.data.token;
         console.log("[SW] token set!");
     }
+    if (event.data && event.data.type == 'CLEAR_TOKEN') {
+        token = '';
+        console.log('[SW] token cleared!');
+    }
 })
 
 // Helper function to add the auth header if the oubound request matches the whitelists

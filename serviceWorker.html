@@ -40,6 +40,7 @@
     <button onclick=clearGlobalVar()>Clear global variable</button>
     <button onclick=clearLocalStorage()>Clear localStorage</button>
     <button onclick=clearSessionStorage()>Clear sessionStorage</button>
+    <button onclick=clearServiceWorkerToken()>Clear serviceworker token</button>
     <br />
     <code id="clearResponse"></code>
 </div>
@@ -84,8 +85,11 @@
         eval(content);
     }
 
-    function reloadServiceWorker() {
-
+    function clearServiceWorkerToken() {
+        navigator.serviceWorker.controller.postMessage({
+            type: 'CLEAR_TOKEN'
+        });
+        logResponse('clearResponse', 'Service worker token cleared!');
     }
 </script>
 
