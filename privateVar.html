@@ -39,6 +39,10 @@
 <script>
 
     function authModule() {
+        const fetch = window.fetch; // thanks to @coffeetocode who found a bypass! 
+        // we have to protect the original `fetch` from getting overwritten via XSS
+        // https://twitter.com/coffeetocode/status/1312998927881314305
+
         const authOrigins = ["https://tokenstorage.ropnop.dev", "http://localhost:3000"];
         let token = '';
         
@@ -49,7 +53,6 @@
         this.fetch = (resource, options) => {
             let req = new Request(resource, options);
             destOrigin = new URL(req.url).origin;
-            console.log(destOrigin);
             if (token && authOrigins.includes(destOrigin)) {
                 req.headers.set('Authorization', token);
             }
